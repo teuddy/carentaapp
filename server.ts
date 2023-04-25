@@ -20,14 +20,14 @@ const nextHandler = nextApp.getRequestHandler();
 
 const app = express()
 
-let allowedOrigin = "https://carentaapp.vercel.app";
+let allowedOrigin = ["https://carentaapp.vercel.app"];
 
 const corsOptions = {
     origin: allowedOrigin,
     credentials: true,
   };
   
-app.use(cors(corsOptions));
+app.use(cors());
 
 nextApp.prepare().then(() => {
 

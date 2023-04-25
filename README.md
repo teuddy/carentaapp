@@ -59,5 +59,5 @@ A continuación, se presenta una propuesta de diseño de base de datos más comp
 
 ### Reviews
 - **review_id** - Identificador único de la reseña.
-- **description - Descripcion de el review
-- **rating - Numero del 0-5 de votacion
+- **description** - Descripcion de el review
+- **rating** - Numero del 0-5 de votacion

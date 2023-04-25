@@ -1,42 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Diseño de base de datos de Carenta.app
 
-## Getting Started
+A continuación, se presenta una propuesta de diseño de base de datos más complejo y acercado a Turo.com.
 
-First, run the development server:
+## Diagrama de entidad-relación (ER)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+![Diagrama ER de la base de datos de Turo.com](https://i.imgur.com/46P6iKj.png)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Descripción de las entidades
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Users
+- **user_id** - Identificador único del usuario.
+- **first_name** - Nombre del usuario.
+- **last_name** - Apellido del usuario.
+- **email** - Dirección de correo electrónico del usuario.
+- **password** - Contraseña del usuario (cifrada).
+- **phone_number** - Número de teléfono del usuario.
+- **address** - Dirección del usuario.
+- **avatar_url** - URL de la imagen de perfil del usuario.
+- **is_verified** - Indica si la cuenta del usuario ha sido verificada.
+- **verification_token** - Token utilizado para verificar la cuenta del usuario.
+- **reset_password_token** - Token utilizado para restablecer la contraseña del usuario.
+- **created_at** - Fecha de creación del usuario.
+- **updated_at** - Fecha de última modificación del usuario.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Listings
+- **listing_id** - Identificador único del listado.
+- **user_id** - Identificador único del usuario que creó el listado.
+- **make** - Marca del vehículo.
+- **model** - Modelo del vehículo.
+- **year** - Año del vehículo.
+- **description** - Descripción del vehículo.
+- **location** - Ubicación del vehículo.
+- **primary_image_url** - URL de la imagen principal del vehículo.
+- **price_per_day** - Precio por día del vehículo.
+- **is_available** - Indica si el vehículo está disponible para alquilar.
+- **created_at** - Fecha de creación del listado.
+- **updated_at** - Fecha de última modificación del listado.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Reservations
+- **reservation_id** - Identificador único de la reserva.
+- **user_id** - Identificador único del usuario que realizó la reserva.
+- **listing_id** - Identificador único del listado al que se aplicó la reserva.
+- **start_date** - Fecha de inicio de la reserva.
+- **end_date** - Fecha de fin de la reserva.
+- **total_price** - Precio total de la reserva.
+- **status** - Estado de la reserva (pendiente, confirmada, cancelada, finalizada).
+- **created_at** - Fecha de creación de la reserva.
+- **updated_at** - Fecha de última modificación de la reserva.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Payments
+- **payment_id** - Identificador único del pago.
+- **reservation_id** - Identificador único de la reserva asociada al pago.
+- **user_id** - Identificador único del usuario que realizó el pago.
+- **listing_id** - Identificador único del listado al que se aplicó el pago.
+- **amount** - Monto del pago.
+- **payment_date** - Fecha en que se realizó el pago.
+- **payment_method** - Método de pago utilizado para el pago.
+- **created_at** - Fecha de creación del pago.
+- **updated_at** - Fecha de última modificación del pago.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-
-
-hola soy lucho
+### Reviews
+- **review_id** - Identificador único de la reseña.
+- **description - Descripcion de el review
+- **rating - Numero del 0-5 de votacion

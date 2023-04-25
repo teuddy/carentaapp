@@ -26,7 +26,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
     }
 
     // Add user object to the request for use in later middleware or route handlers
-    req.user = user;
+    // req.user = user;
 
     // Call the next middleware or route handler
     next();

@@ -4,8 +4,6 @@ A continuación, se presenta una propuesta de diseño de base de datos más comp
 
 ## Diagrama de entidad-relación (ER)
 
-![Diagrama ER de la base de datos de Turo.com](https://i.imgur.com/46P6iKj.png)
-
 ## Descripción de las entidades
 
 ### Users

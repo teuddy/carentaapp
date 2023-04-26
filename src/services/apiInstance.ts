@@ -6,7 +6,7 @@ const apiInstance = axios.create({})
 
 export const getStudents = ()=>{
     return apiInstance({
-        url: '/api/student',
+        url: 'api/hello',
         method: 'GET'
     })
 }

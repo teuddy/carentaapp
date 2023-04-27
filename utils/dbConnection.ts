@@ -16,8 +16,8 @@ export const connect = () =>{
       .then(() => {
         console.log("MongoDB is connected");
       })
-      .catch((err) => {
-        console.log("MongoDB connection unsuccessful, retry after 2 seconds.", err);
+      .catch((error: any) => {
+        console.log("MongoDB connection unsuccessful, retry after 2 seconds.", error);
         setTimeout(connectWithRetry, 2000);
       });
   };

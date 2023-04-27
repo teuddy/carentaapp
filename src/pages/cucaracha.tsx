@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import useGetStudents from "../hooks/useGetStudents";
 
@@ -16,7 +17,8 @@ const Cucaracha = ()=>{
 
     useEffect(()=>{
         if(query.isSuccess){
-            setStudents(query.data?.data)
+            console.log(query.data)
+            // setStudents(query.data?.data)
         }
 
     },[query.isSuccess])

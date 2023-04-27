@@ -6,6 +6,7 @@ const SignUpForm = ()=>{
       <div className="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
         <div className="flex flex-col overflow-y-auto md:flex-row ">
           <div className="h-32 md:h-auto md:w-1/2 ">
+          <img className="object-cover w-full h-full" src="https://images.turo.com/media/vehicle/images/deXN51cBQra4OnDG-SRFEg.1440x700.jpg"/>
                     {/**IMAGEN */}
           </div>
           <div className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">

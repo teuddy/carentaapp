@@ -7,7 +7,7 @@ export interface Listing extends Document {
   year: number;
   description: string;
   location: string;
-  primary_image_url: string;
+  image_urls: string[]; // new field for multiple image URLs
   price_per_day: number;
   is_available: boolean;
   created_at: Date;
@@ -22,6 +22,7 @@ const listingSchema: Schema = new Schema({
   description: { type: String, required: true },
   location: { type: String, required: true },
   primary_image_url: { type: String, required: true },
+  image_urls: { type: [String], required: true }, // new field for multiple image URLs
   price_per_day: { type: Number, required: true },
   is_available: { type: Boolean, required: true },
   created_at: { type: Date, required: true },

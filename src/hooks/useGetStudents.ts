@@ -3,7 +3,7 @@ import { getStudents } from "../services/apiInstance";
 const useGetStudents = ()=>
     useQuery({
         queryKey: ['students'],
-        queryFn: ()=> getStudents()
+        queryFn: ()=>{}
     })
 
 

@@ -1,4 +1,5 @@
 import { Document, Schema, Model, model } from "mongoose";
+import mongoose from "mongoose";
 
 export interface User extends Document {
   first_name: string;
@@ -15,7 +16,7 @@ export interface User extends Document {
   updated_at: Date;
 }
 
-const userSchema: Schema = new Schema({
+const userSchema = new Schema<User>({
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -30,4 +31,6 @@ const userSchema: Schema = new Schema({
   updated_at: { type: Date, required: true },
 });
 
-export const UserModel: Model<User> = model<User>("User", userSchema);
+// export const UserModel: Model<User> = model<User>("User", userSchema);
+
+export default (mongoose.models.User as mongoose.Model<User>) || mongoose.model('User', userSchema);

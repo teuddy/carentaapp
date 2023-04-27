@@ -8,11 +8,26 @@ export default async function handler(
     res: NextApiResponse
     ) {
     
-    await connect();
-
-    if (req.method === 'POST') {
-        createPayment(req,res)
-    } else {
-        res.send('hola')
-    }
+    connect();
+    
+    switch(req.method) { 
+        case "POST": { 
+            createPayment(req,res); 
+            break; 
+        } 
+        case "GET": { 
+            res.send("GET") 
+            break; 
+        } 
+        case "PUT": {
+            res.send("PUT")
+        }
+        case "DELETE": {
+            res.send("DELETE")
+        }
+        default: { 
+            res.send("hola"); 
+            break; 
+        } 
+    } 
 }

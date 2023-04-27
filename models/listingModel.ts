@@ -1,4 +1,5 @@
 import { Document, Schema, Model, model, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface Listing extends Document {
   user_id: Types.ObjectId;
@@ -7,6 +8,7 @@ export interface Listing extends Document {
   year: number;
   description: string;
   location: string;
+  primary_image_url: string; // agregado para eliminar error
   image_urls: string[]; // new field for multiple image URLs
   price_per_day: number;
   is_available: boolean;
@@ -14,7 +16,7 @@ export interface Listing extends Document {
   updated_at: Date;
 }
 
-const listingSchema: Schema = new Schema({
+const listingSchema = new Schema<Listing>({
   user_id: { type: Schema.Types.ObjectId, required: true },
   make: { type: String, required: true },
   model: { type: String, required: true },
@@ -29,4 +31,6 @@ const listingSchema: Schema = new Schema({
   updated_at: { type: Date, required: true },
 });
 
-export const ListingModel: Model<Listing> = model<Listing>("Listing", listingSchema);
+// export const ListingModel: Model<Listing> = model<Listing>("Listing", listingSchema);
+
+export default (mongoose.models.Listing as mongoose.Model<Listing>) || mongoose.model('Listing', listingSchema);

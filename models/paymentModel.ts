@@ -1,4 +1,5 @@
 import { Document, Schema, Model, model, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface Payment extends Document {
     // el pago
@@ -16,7 +17,7 @@ export interface Payment extends Document {
   updated_at: Date;
 }
 
-const paymentSchema: Schema = new Schema({
+const paymentSchema =  new Schema<Payment>({
   reservation_id: { type: Schema.Types.ObjectId, required: true },
   user_id: { type: Schema.Types.ObjectId, required: true },
   listing_id: { type: Schema.Types.ObjectId, required: true },
@@ -27,4 +28,5 @@ const paymentSchema: Schema = new Schema({
   updated_at: { type: Date, required: true },
 });
 
-export const PaymentModel: Model<Payment> = model<Payment>("Payment", paymentSchema);
+export default (mongoose.models.Payment as mongoose.Model<Payment>) || mongoose.model('Payment', paymentSchema);
+

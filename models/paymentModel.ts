@@ -1,3 +1,4 @@
+import { boolean } from "joi";
 import { Document, Schema, Model, model, Types } from "mongoose";
 import mongoose from "mongoose";
 
@@ -15,6 +16,7 @@ export interface Payment extends Document {
   payment_method: string;
   created_at: Date;
   updated_at: Date;
+  payment_active: boolean;
 }
 
 const paymentSchema =  new Schema<Payment>({
@@ -26,6 +28,7 @@ const paymentSchema =  new Schema<Payment>({
   payment_method: { type: String, required: true },
   created_at: { type: Date, required: true },
   updated_at: { type: Date, required: true },
+  payment_active: { type: Boolean, required: true }
 });
 
 export default (mongoose.models.Payment as mongoose.Model<Payment>) || mongoose.model('Payment', paymentSchema);

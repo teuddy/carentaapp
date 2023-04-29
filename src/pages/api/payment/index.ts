@@ -7,27 +7,27 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
     ) {
-    
+
     connect();
-    
-    switch(req.method) { 
-        case "POST": { 
-            createPayment(req,res); 
-            break; 
-        } 
-        case "GET": { 
-            res.send("GET") 
-            break; 
-        } 
+
+    switch(req.method) {
+        case "POST": {
+            createPayment(req,res);
+            break;
+        }
+        case "GET": {
+            res.send("GET")
+            break;
+        }
         case "PUT": {
             res.send("PUT")
         }
         case "DELETE": {
             res.send("DELETE")
         }
-        default: { 
-            res.send("hola"); 
-            break; 
-        } 
-    } 
+        default: {
+            res.send("hola");
+            break;
+        }
+    }
 }

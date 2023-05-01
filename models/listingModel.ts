@@ -10,23 +10,19 @@ export interface Listing extends Document {
   image_urls: string[]; // new field for multiple image URLs
   price_per_day: number;
   is_available: boolean;
-  created_at: Date;
-  updated_at: Date;
 }
 
 const listingSchema: Schema = new Schema({
-  user_id: { type: Schema.Types.ObjectId, required: true },
+  user_id: { type: Schema.Types.ObjectId, /*required: true */},
   make: { type: String, required: true },
   model: { type: String, required: true },
   year: { type: Number, required: true },
   description: { type: String, required: true },
   location: { type: String, required: true },
-  primary_image_url: { type: String, required: true },
+ // primary_image_url: { type: String, required: true },
   image_urls: { type: [String], required: true }, // new field for multiple image URLs
   price_per_day: { type: Number, required: true },
   is_available: { type: Boolean, required: true },
-  created_at: { type: Date, required: true },
-  updated_at: { type: Date, required: true },
-});
+  }, { timestamps: true });
 
 export const ListingModel: Model<Listing> = model<Listing>("Listing", listingSchema);

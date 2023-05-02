@@ -1,4 +1,6 @@
+// import { ReservationModel } from './reservationModel';
 import { Document, Schema, Model, model, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface Reservation extends Document {
   user_id:  Types.ObjectId;
@@ -11,7 +13,7 @@ export interface Reservation extends Document {
   updated_at: Date;
 }
 
-const reservationSchema: Schema = new Schema({
+const reservationSchema = new Schema<Reservation>({
   user_id: { type: Schema.Types.ObjectId, required: true },
   listing_id: { type: Schema.Types.ObjectId, required: true },
   start_date: { type: Date, required: true },
@@ -22,4 +24,6 @@ const reservationSchema: Schema = new Schema({
   updated_at: { type: Date, required: true },
   });
   
-  export const ReservationModel: Model<Reservation> = model<Reservation>("Reservation", reservationSchema);
+  // export const ReservationModel: Model<Reservation> = model<Reservation>("Reservation", reservationSchema);
+
+  export default (mongoose.models.ReservationModel as mongoose.Model<Reservation>) || mongoose.model('Reservation', reservationSchema);

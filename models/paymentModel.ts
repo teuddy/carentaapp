@@ -1,4 +1,6 @@
+import { boolean } from "joi";
 import { Document, Schema, Model, model, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export interface Payment extends Document {
     // el pago
@@ -14,9 +16,10 @@ export interface Payment extends Document {
   payment_method: string;
   created_at: Date;
   updated_at: Date;
+  payment_active: boolean;
 }
 
-const paymentSchema: Schema = new Schema({
+const paymentSchema =  new Schema<Payment>({
   reservation_id: { type: Schema.Types.ObjectId, required: true },
   user_id: { type: Schema.Types.ObjectId, required: true },
   listing_id: { type: Schema.Types.ObjectId, required: true },
@@ -25,6 +28,8 @@ const paymentSchema: Schema = new Schema({
   payment_method: { type: String, required: true },
   created_at: { type: Date, required: true },
   updated_at: { type: Date, required: true },
+  payment_active: { type: Boolean, required: true }
 });
 
-export const PaymentModel: Model<Payment> = model<Payment>("Payment", paymentSchema);
+export default (mongoose.models.Payment as mongoose.Model<Payment>) || mongoose.model('Payment', paymentSchema);
+

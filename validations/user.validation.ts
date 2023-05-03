@@ -1,6 +1,7 @@
 import Joi from 'joi'
 
 export const userSchema = Joi.object({
+    // user_id: Joi.string().required(),
     first_name: Joi.string().required(),
     last_name: Joi.string().required(),
     email: Joi.string().required(),
@@ -9,6 +10,6 @@ export const userSchema = Joi.object({
     address: Joi.string().required(),
     avatar_url: Joi.string(),
     is_verified: Joi.boolean().required(),
-    verification_token: Joi.string(),
-    reset_password_token: Joi.string(),
+    // verification_token: Joi.string(),
+    // reset_password_token: Joi.string(),
 });

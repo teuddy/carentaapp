@@ -12,6 +12,10 @@ import bcrypt from 'bcrypt';
 export const createUser = async (newUserData: User ) => {
     console.log("newUserData: ", newUserData);
     try {
+        
+        // Sanitize: convert email to lowercase
+        const email = newUserData.email.toLocaleLowerCase()
+        newUserData.email = email
         // Check if user already exist
         // Validate if user exist in our database
         const registerUser = await UserModel.findOne({ email: newUserData.email})
@@ -23,6 +27,7 @@ export const createUser = async (newUserData: User ) => {
         // Encrypted password
         const encryptedPassword = await bcrypt.hash(newUserData.password, 10)
         newUserData.password = encryptedPassword
+
 
         console.log("newUserData: ", newUserData);
 

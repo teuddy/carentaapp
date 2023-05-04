@@ -10,6 +10,7 @@ export const userSchema = Joi.object({
     address: Joi.string().required(),
     avatar_url: Joi.string(),
     is_verified: Joi.boolean().required(),
+    token: Joi.string(),
     // verification_token: Joi.string(),
     // reset_password_token: Joi.string(),
 });

@@ -3,6 +3,7 @@ import { connect } from "../../utils/dbConnection";
 // import { Reservation } from "../../interfaces/Reservation";
 import UserModel from "../../models/userModel";
 import ReservationModel from "../../models/reservationModel";
+import { generateToken } from '../../helpers/tokenHelper';
 // const payment = [];
 // const reservation = [];
 
@@ -11,7 +12,16 @@ export const createUser = async (newUserData: User ) => {
     console.log("newUserData: ", newUserData);
     try {
         const newUser = await UserModel.create(newUserData)
+        
+        const userToken = generateToken(newUser)
+        console.log("userToken: ", userToken);
+        
+        newUser['token'] = userToken
+
+        console.log("user with TOKEN: ", newUser);
+
         await newUser.save()
+        
         return newUser
     } catch (error) {
         return error

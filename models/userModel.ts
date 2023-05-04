@@ -11,6 +11,7 @@ export interface User extends Document {
   address: string;
   avatar_url: string;
   is_verified: boolean;
+  // token: string;
   // verification_token: string;
   // reset_password_token: string;
   // created_at: Date;
@@ -27,6 +28,7 @@ const userSchema = new Schema<User>({
   address: { type: String, required: true },
   avatar_url: { type: String },
   is_verified: { type: Boolean, required: true },
+  // token: {type: String},
   // verification_token: { type: String }, // token for validation
   // reset_password_token: { type: String },
   // created_at: { type: Date, required: true },

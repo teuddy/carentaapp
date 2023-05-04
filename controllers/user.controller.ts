@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { createUser as createUserService, deleteUser as deleteUserService} from '../services/user/user.service'
 import { getUser as getUserRecord, updateUser as updateUserRecord } from '../services/user/user.service'
 import { userSchema } from '../validations/user.validation';
+import { generateToken } from '../helpers/tokenHelper';
 
 // POST: api/user // endpoint to create a user
 export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -21,6 +22,8 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
     const newUser = await createUserService( newUserData )
     // Json Web Token 
     console.log("newUser: ", newUser);
+    // const userToken = generateToken(newUser)
+    // console.log("userToken: ", userToken);
     res.status(200).send({ 
         status: "data of createUser is valid",
         data: newUser

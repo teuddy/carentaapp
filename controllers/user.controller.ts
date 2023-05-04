@@ -6,10 +6,10 @@ import { generateToken } from '../helpers/tokenHelper';
 
 // POST: api/user // endpoint to create a user
 export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
-    // Validate request data
-    console.log("req.body: ", req.body);
-    // res.send(req.body)
+
+    // console.log("req.body: ", req.body);
     const newUserData = req.body
+    // Validate request data
     const { error } = userSchema.validate( newUserData )
     if (error) {
         return (
@@ -20,10 +20,6 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     // Sending validated data to be processed the registration
     const newUser = await createUserService( newUserData )
-    // Json Web Token 
-    console.log("newUser: ", newUser);
-    // const userToken = generateToken(newUser)
-    // console.log("userToken: ", userToken);
     res.status(200).send({ 
         status: "data of createUser is valid",
         data: newUser

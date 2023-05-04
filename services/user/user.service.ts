@@ -4,6 +4,7 @@ import { connect } from "../../utils/dbConnection";
 import UserModel from "../../models/userModel";
 import ReservationModel from "../../models/reservationModel";
 import { generateToken } from '../../helpers/tokenHelper';
+import bcrypt from 'bcrypt';
 // const payment = [];
 // const reservation = [];
 
@@ -18,6 +19,12 @@ export const createUser = async (newUserData: User ) => {
         if(registerUser) {
             return "User alredy exist. Please login"
         }
+
+        // Encrypted password
+        const encryptedPassword = await bcrypt.hash(newUserData.password, 10)
+        newUserData.password = encryptedPassword
+
+        console.log("newUserData: ", newUserData);
 
         const newUser = await UserModel.create(newUserData)
         

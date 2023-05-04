@@ -11,13 +11,20 @@ import { generateToken } from '../../helpers/tokenHelper';
 export const createUser = async (newUserData: User ) => {
     console.log("newUserData: ", newUserData);
     try {
+        // Check if user already exist
+        // Validate if user exist in our database
+        const registerUser = await UserModel.findOne({ email: newUserData.email})
+
+        if(registerUser) {
+            return "User alredy exist. Please login"
+        }
+
         const newUser = await UserModel.create(newUserData)
         
         const userToken = generateToken(newUser)
         console.log("userToken: ", userToken);
         
         newUser['token'] = userToken
-
         console.log("user with TOKEN: ", newUser);
 
         await newUser.save()

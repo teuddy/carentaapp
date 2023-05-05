@@ -66,33 +66,26 @@ export const getUser = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(code).send({ status, code, message, data })
 }
 
-// PUT: api/user // endpoint to update user by id
+// PUT: api/user/auth // endpoint to update user by id
 export const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     
     const userId = req.query.id
-    console.log("CONTROLLER userId: ", userId);
+    const userDataToUpdate = req.body
     
     // Validate request data
-    const userDataToUpdate = req.body
-    console.log("CONTROLLER userDataToUpdate: ", userDataToUpdate);
-    
-    // res.send(`userDataToUpdate: ${userDataToUpdate}`)
-    // const { error } = userSchema.validate( userDataToUpdate )
+    const { error } = userSchema.validate( userDataToUpdate )
 
-    // if (error) {
-    //     return (
-    //         res.status(400).json({
-    //             message: error.details[0].message
-    //         })
-    //     )
-    // }
-    // Send user id to get record
-    const recordUserUpdated = await updateUserRecord ( userId, userDataToUpdate )
-    console.log("recordUserUpdated: ", recordUserUpdated);
-    res.status(200).send({ 
-        status: "User data to update is valid",
-        data: recordUserUpdated
-    })
+    if (error) {
+        return (
+            res.status(400).json({
+                message: error.details[0].message
+            })
+        )
+    }
+    // Update user data
+    const { status, code, data, message } = await updateUserRecord ( userId, userDataToUpdate )
+
+    res.status(code).send({ status, code, message, data })
 }
 
 // DELETE: api/user // endpoint to delete payment by id

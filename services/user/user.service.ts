@@ -65,13 +65,20 @@ export const getUser = async ( userId: string | string[] ) => {
 // Update user record by id
 export const updateUser = async ( userId: string | string[], userDataToUpdate: User ) => {
     
-    console.log("userDataToUpdate: ", userDataToUpdate);
     try {
-        // connect()
         const updatedUser = await UserModel.findByIdAndUpdate(userId, userDataToUpdate)
-        return updatedUser
+        return {
+            status: "OK",
+            code: 200,
+            message: "Request succeeded",
+            data: updatedUser
+        }
     } catch (error) {
-        return error
+        return {
+            status: "Failed",
+            code: 500,
+            message: "Internal Server Error"
+        }
     }
 }
 

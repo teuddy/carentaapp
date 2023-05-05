@@ -4,7 +4,7 @@ import { User } from '../models/userModel';
 const secretKey = "SECRET_KEY_TO_JWT";
 
 export const generateToken = (newUser: User) => {
-    console.log("generateToken START");
+    // console.log("generateToken START");
     // const secretKey = "SECRET_KEY_TO_JWT"
     // const userData = newUser._id
     

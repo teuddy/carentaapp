@@ -30,10 +30,9 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
 // POST: api/user/auth // endpoint to login user
 export const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    const userData = req.body
-    // res.send({userData: userData})
+    const loginData = req.body
     // Validate request data
-    const { error } = loginSchema.validate( userData )
+    const { error } = loginSchema.validate( loginData )
     if (error) {
         return (
             res.status(400).json({
@@ -42,7 +41,7 @@ export const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
         )
     }
     // Sending validated data for the login to be processed
-    const { status, code, message, token} = await loginUserService( userData )
+    const { status, code, message, token} = await loginUserService( loginData )
     res.status(code).send({ status, code, message, token })
 }
 

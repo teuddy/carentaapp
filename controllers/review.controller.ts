@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getAllListingService } from "../services/listing/listing.service";
+import { getAllReviewService } from "../services/listing/listing.service";
 import { listingSchema } from '../validations/listing.valdiation';
 
 
@@ -12,6 +12,7 @@ const create = (req : NextApiRequest, res : NextApiResponse) =>{
 }
 
 
-const getAllListing = (req : NextApiRequest ,res : NextApiResponse) =>{
-    res.status(200).json(getAllListingService())
+const getAllReviews = async(req : NextApiRequest ,res : NextApiResponse) =>{
+    res.status(200).json(getAllReviewService())
+    const allReviews = await getAllReviews
 }

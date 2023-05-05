@@ -1,14 +1,15 @@
 
 //este es el que busca en el modelo
 
-import { ListingModel } from "../../models/listingModel";
+import { get } from "http";
+import ListingModel, { Listing } from "../../models/listingModel";
 import { connect } from "../../utils/dbConnection";
 //import  ListingModel  from "../../models/listingModel"
 
 
 // Listing.find({})
-const createListing = async (data) =>{
-    connect()
+export const createListing = async (data: Listing) =>{
+
     try{
         const createNewListing = await ListingModel.create(data);
         return createNewListing;
@@ -20,9 +21,8 @@ const createListing = async (data) =>{
 
 
 
-const getAllListingService = async () =>{
-    connect()
-    // ListingModel.find()
+export const getAllListingService = async () =>{
+     // ListingModel.find()
     //     .then(allListing => {
     //         console.log('listing', allListing)
     //         return allListing
@@ -31,20 +31,45 @@ const getAllListingService = async () =>{
     //         
 
     //     })
+
     try {
-        const allListings = await ListingModel.find();
-        return allListings;
+        const listingCar  =  
+            {
+        "make":"",
+        "model":"",
+        "year":"",
+        "description":"",
+        "location":"",
+        "price_per_day":"",
+        "is_available": true,
+        "image_urls": ["https://acnews.blob.core.windows.net/imgnews/large/NAZ_ce0fb6a213d54ce6bc9e3d45299973d4.jpg"]
+        }
+        //const allListings = await ListingModel.find();
+        return listingCar;
     } catch (err) {
         console.log("err", err);
         return({ error: err})
     }
 }
 
-const putListingService = async (id, body) => {
-    connect()
+export const getListingService = async ( listingId: string | string[] )  =>{
+    console.log("getService", listingId )
 
+    try {
+        const getListing = await ListingModel.findById(listingId) 
+        return getListing        
+    } catch (err) {
+        console.log("err", err);
+        return({ error: err})
+    }
+}
+
+
+export const putListingService = async (id: string | string[] , body: Listing) => {
+    
     try{
-        const putListing = await ListingModel.findOneAndUpdate({_id:id}, body,{ new: true});
+        const putListing = await ListingModel.findByIdAndUpdate(id , body);
+        //console.log("putlisting", putListing)
         return putListing;
     }catch (err){
         console.log("err", err);
@@ -52,8 +77,7 @@ const putListingService = async (id, body) => {
     }
 }
 
-const deleteOneListingService = async (id)=> {
-    connect()
+export const deleteOneListingService = async (id)=> {
     try{
         const deleteListing = await ListingModel.deleteOne({ _id:id});
         return deleteListing;
@@ -63,6 +87,5 @@ const deleteOneListingService = async (id)=> {
     }
 }
 
-export { getAllListingService, putListingService, createListing, deleteOneListingService }
 
 

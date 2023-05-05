@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { connect } from '../../../../utils/dbConnection'
-import { deleteListing, putListing } from '../../../../controllers/listing.controller'
+import { deleteListing, getListing, putListing } from '../../../../controllers/listing.controller'
 
 export default async function handler(
     req: NextApiRequest,
@@ -12,18 +12,20 @@ export default async function handler(
 
     switch(req.method) { 
 
-        //case "GET": { 
-        
-          //  break; 
-        //} 
+        case "GET": { 
+            getListing(req, res)
+            break; 
+        } 
         case "PUT": {
             putListing(req, res)
+            break;
         }
         case "DELETE": {
             deleteListing(req, res)
+            break;
         }
         default: { 
-          //  res.send("hola"); 
+            res.send("deFaultListingId"); 
             break; 
         } 
     }

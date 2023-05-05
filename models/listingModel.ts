@@ -1,4 +1,6 @@
 import { Document, Schema, Model, model, Types } from "mongoose";
+import mongoose from "mongoose";
+
 
 export interface Listing extends Document {
   user_id: Types.ObjectId;
@@ -12,7 +14,7 @@ export interface Listing extends Document {
   is_available: boolean;
 }
 
-const listingSchema: Schema = new Schema({
+const listingSchema = new Schema<Listing>({
   user_id: { type: Schema.Types.ObjectId, /*required: true */},
   make: { type: String, required: true },
   model: { type: String, required: true },
@@ -25,4 +27,17 @@ const listingSchema: Schema = new Schema({
   is_available: { type: Boolean, required: true },
   }, { timestamps: true });
 
-export const ListingModel: Model<Listing> = model<Listing>("Listing", listingSchema);
+//export default (mongoose.Model.Listing as mongoose.Model<Listing>  model<Listing>)
+export default (mongoose.models.Listing as mongoose.Model<Listing>) || mongoose.model('Listing', listingSchema);
+
+
+
+
+
+
+
+
+
+
+
+

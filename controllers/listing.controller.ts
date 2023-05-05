@@ -1,36 +1,49 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createListing, getAllListingService, putListingService,deleteOneListingService } from "../services/listing/listing.service";
+import { createListing, getAllListingService, putListingService,deleteOneListingService, getListingService } from "../services/listing/listing.service";
 import { listingSchema } from '../validations/listing.valdiation';
 
 
 // POST: api/listing // endpoint para crear un listing
-const create = async (req : NextApiRequest, res : NextApiResponse) =>{
+export const create = async (req : NextApiRequest, res : NextApiResponse) =>{
+    console.log("req.body:" ,req.body)
     const {error } = listingSchema.validate(req.body)
     if (error) return res.status(400).json({message: error.details[0].message})
     const newListing = await createListing(req.body) 
     res.send({newListing})
 }
 
-const getAllListing = async (req : NextApiRequest ,res : NextApiResponse) =>{
+export const getAllListing = async (req : NextApiRequest ,res : NextApiResponse) =>{
    // res.status(200).json(getAllListingService())
     const allListing =  await getAllListingService()
    //if (error) return res.status(400).json({message: error})
     res.send({ list: allListing })
 }
 
-const putListing = async (req: NextApiRequest , res: NextApiResponse) =>{
-    const putListing = await putListingService(req.query.id, req.body)
-    res.send({putListing})
+
+export const getListing = async (req : NextApiRequest ,res : NextApiResponse) =>{
+    // res.status(200).json(getAllListingService())
+  //  const allListing =  await getAllListingService()
+    //if (error) return res.status(400).json({message: error})
+    const listingId = req.query.id
+    const listing = await getListingService(listingId) 
+   // console.log("imprimiendo", req.query.id)
+    res.send(listing)
 }
 
-const deleteListing = async ( req: NextApiRequest, res: NextApiResponse)=>{
+export const putListing = async (req: NextApiRequest , res: NextApiResponse) =>{
+    
+    const listingId = req.query.id
+    //console.log(listingId)
+    //const putListing = await putListingService(query.id, req.body)
+    const newDataListing = req.body
+   // console.log(newDataListing)
+    const listingUpdated = await putListingService(listingId, newDataListing)
+    res.send(listingUpdated)
+}
+
+export const deleteListing = async ( req: NextApiRequest, res: NextApiResponse)=>{
     const deleteOneListing = await deleteOneListingService(req.query.id)
     res.send({deleteOneListing})
 }
 
-export {
-    create,
-    getAllListing,
-    putListing,
-    deleteListing
-};
+

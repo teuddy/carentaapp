@@ -14,22 +14,22 @@ export default async function handler(
     switch(req.method) {
         case "POST": {
             createUser(req, res);
-            // res.send("POST method in auth index route")
+            // res.send("POST method in USER index route")
             break;
         }
         case "GET": {
             // getUser(req,res);
-            res.send("GET method in auth index route")
+            res.send("GET method in USER index route")
             break;
         }
         case "PUT": {
-            res.send("PUT method in auth index route")
+            res.send("PUT method in USER index route")
         }
         case "DELETE": {
-            res.send("DELETE method in auth index route")
+            res.send("DELETE method in USER index route")
         }
         default: {
-            res.send("DEFAULt in auth index route");
+            res.send("DEFAULt in USER index route");
             break;
         }
     }

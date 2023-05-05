@@ -1,12 +1,7 @@
 import { User } from './../../models/userModel';
-import { connect } from "../../utils/dbConnection";
-// import { Reservation } from "../../interfaces/Reservation";
 import UserModel from "../../models/userModel";
-import ReservationModel from "../../models/reservationModel";
 import { generateToken } from '../../helpers/tokenHelper';
 import bcrypt from 'bcrypt';
-// const payment = [];
-// const reservation = [];
 
 // Register new user in the DB
 export const createUser = async (newUserData: User ) => {
@@ -15,7 +10,6 @@ export const createUser = async (newUserData: User ) => {
         // Sanitize: convert email to lowercase
         const email = newUserData.email.toLocaleLowerCase()
         newUserData.email = email
-        // Check if user already exist
         // Check if the user's email is already registerd in the DB to reject the register process
         const registeredUser = await UserModel.findOne({ email: newUserData.email})
 
@@ -103,39 +97,41 @@ export const deleteUser = async ( userId: string | string[] ) => {
 
 // Login user registered in the DB
 export const loginUser = async (userData: User ) => {
-    console.log("userData: ", userData);
+
     try {
         // Sanitize: convert email to lowercase
         const email = userData.email.toLocaleLowerCase()
         userData.email = email
-        // Check if user already exist
-        // Validate if user exist in our database
+        // Validate if user exist in the DB
         const registeredUser = await UserModel.findOne({ email: userData.email})
 
         if(!registeredUser) {
-            return "User is not register. Please register and try to login again"
+            return {
+                status: "Access failed",
+                code: 400,
+                message: "Invalid credentials"
+            }
         }
+        // Password validation against the registered in the DB
         const result = await bcrypt.compare(userData.password, registeredUser.password)
-        console.log("restul: ", result);
+        
         if(registeredUser && (result)) {
             var userToken = generateToken(registeredUser)
-            console.log("userToken: ", userToken);
+
+            return {
+                status: "Successful access",
+                code: 200,
+                message: "Valid credentials",
+                token: userToken
+            }
         }
-        // Encrypted password
-        // const encryptedPassword = await bcrypt.hash(newUserData.password, 10)
-        // newUserData.password = encryptedPassword
 
-        // const newUser = await UserModel.create(newUserData)
-        
-        // const userToken = generateToken(newUser)
-        // console.log("userToken: ", userToken);
-        
-        // newUser['token'] = userToken
-        // console.log("user with TOKEN: ", newUser);
+        return {
+            status: "Access failed",
+            code: 400,
+            message: "Invalid credentials"
+        }
 
-        // await newUser.save()
-        
-        return userToken
     } catch (error) {
         return error
     }

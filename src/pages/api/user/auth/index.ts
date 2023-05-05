@@ -1,36 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { connect } from '../../../../../utils/dbConnection'
-// import { create as CreateListingController } from '../../../../controllers/listing.controller'
+import { getUser, loginUser } from '../../../../../controllers/user.controller';
 
-import { createUser, getUser, loginUser } from '../../../../../controllers/user.controller';
-
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-    ) {
+export default async function handler( req: NextApiRequest, res: NextApiResponse ) {
 
     connect();
 
     switch(req.method) {
         case "POST": {
             loginUser(req, res)
-            // res.send("POST in AUTH")
+            // res.send("POST method in AUTH index ruote")
             // createUser(req, res);
             break;
         }
         case "GET": {
-            getUser(req,res);
-            res.send("GET in AUTH")
+            // getUser(req,res);
+            res.send("GET method in AUTH index ruote")
             break;
         }
         case "PUT": {
-            res.send("PUT in AUTH")
+            res.send("PUT method in AUTH index ruote")
+            break;
         }
         case "DELETE": {
-            res.send("DELETE in AUTH")
+            res.send("DELETE method in AUTH index ruote")
+            break;
         }
         default: {
-            res.send("Here in user AUTH!");
+            res.send("DEFAULT in AUTH index ruote");
             break;
         }
     }

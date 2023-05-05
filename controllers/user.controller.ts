@@ -4,7 +4,7 @@ import {createUser as createUserService,
         loginUser as loginUserService } from '../services/user/user.service'
 import {getUser as getUserRecord,
         updateUser as updateUserRecord } from '../services/user/user.service'
-import { loginSchema, userSchema } from '../validations/user.validation';
+import { getSchema, loginSchema, userSchema } from '../validations/user.validation';
 
 // POST: api/user // endpoint to create a user
 export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -48,28 +48,22 @@ export const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
 // POST: api/user // endpoint to get user by id
 export const getUser = async (req: NextApiRequest, res: NextApiResponse) => {
     
-    // Validate request data
     const userId = req.query.id
-    // console.log("userId in controller: ", userId);
+    // Validate request data
+    const { error } = getSchema.validate( { _id: userId } )
 
-    // Send user id to get record
-    const recordUser = await getUserRecord ( userId )
-    console.log("recordUser: ", recordUser);
+    if (error) {
+        return (
+            res.status(400).json({
+                message: error.details[0].message
+            })
+        )
+    }
 
-    // const { error } = userSchema.validate( userId )
+    // Get user data by id
+    const { status, data, code, message } = await getUserRecord ( userId )
 
-    // if (error) {
-    //     return (
-    //         res.status(400).json({
-    //             message: error.details[0].message
-    //         })
-    //     )
-    // }
-    
-    res.status(200).send({ 
-        status: "data of get User is valid",
-        data: recordUser
-    })
+    res.status(code).send({ status, code, message, data })
 }
 
 // PUT: api/user // endpoint to update user by id

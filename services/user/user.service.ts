@@ -44,27 +44,21 @@ export const createUser = async (newUserData: User ) => {
 // Get user record by id
 export const getUser = async ( userId: string | string[] ) => {
     
-    console.log("userId in getUser: ", userId);
     try {
-        // connect()
-        
-        const getUser = await UserModel.findById(userId)
-        console.log("getUser result: ", getUser);
-        return getUser
-        // return (
-        //     {
-        //         "user_id":  "_id-6446c4c2521bd181f752ee20",
-        //         "listing_id": "asdf6446c4c2521bd181f752ee20",
-        //         "start_date": "2023/04/29",
-        //         "end_date": "2023/05/15",
-        //         "total_price": 1235,
-        //         "status": "pending",
-        //         "created_at": "2023/04/01",
-        //         "updated_at": "2023/04/29"
-        //     }
-        // )
+        const userData = await UserModel.findById( userId )
+        return {
+            status: "OK",
+            code: 200,
+            message: "Request succeeded",
+            data: userData
+        }
+
     } catch (error) {
-        return error
+        return {
+            status: "Failed",
+            code: 500,
+            message: "Internal Server Error"
+        }
     }
 }
 

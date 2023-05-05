@@ -22,3 +22,11 @@ export const loginSchema = Joi.object({
     // verification_token: Joi.string(),
     // reset_password_token: Joi.string(),
 });
+
+export const getSchema = Joi.object({
+    _id: Joi.string().required(),
+    // password: Joi.string().required(),
+    // token: Joi.string(),
+    // verification_token: Joi.string(),
+    // reset_password_token: Joi.string(),
+});

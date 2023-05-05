@@ -3,11 +3,7 @@ import { connect } from '../../../../utils/dbConnection'
 import { deleteUser, getUser, updateUser } from '../../../../controllers/user.controller'
 
 export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse ) {
-    
-    // const userId = req.query.id
-    // console.log("userId: ", userId);
+    req: NextApiRequest, res: NextApiResponse) {
     
     connect()
 
@@ -16,23 +12,22 @@ export default async function handler(
         case "GET": {
             // console.log("req: ", req);
             getUser(req, res);
-            // res.send(`GET method - get userIid: ${userId}`) 
+            // res.send("GET method in auth [id] route") 
             break; 
         } 
         case "PUT": {
             // console.log("user file - req.body: ", req.body);
-            updateUser(req, res)
-            // res.send(`PUT method - update userIid: ${userId}`) 
+            // updateUser(req, res)
+            res.send("PUT method in auth [id] route") 
             break;
         }
         case "DELETE": {
-            console.log("case DELETE");
-            deleteUser(req, res)
-            // res.send(`DELETE method - delete userIid: ${userId}`)
+            // deleteUser(req, res)
+            res.send("PUT method in auth [id] route")
             break;
         }
         default: { 
-            res.send("Whitout any method coincidence - GET, PUT or DELETE"); 
+            res.send("DEFAULT method in auth [id] route"); 
             break; 
         } 
     }

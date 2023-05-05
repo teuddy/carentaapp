@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createUser as createUserService, deleteUser as deleteUserService} from '../services/user/user.service'
+import {
+            createUser as createUserService,
+            deleteUser as deleteUserService,
+            loginUser as loginUserService } from '../services/user/user.service'
 import { getUser as getUserRecord, updateUser as updateUserRecord } from '../services/user/user.service'
 import { userSchema } from '../validations/user.validation';
 import { generateToken } from '../helpers/tokenHelper';
@@ -9,7 +12,7 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // console.log("req.body: ", req.body);
     const newUserData = req.body
-    // Validate request data
+    // Validate request data - user input
     const { error } = userSchema.validate( newUserData )
     if (error) {
         return (
@@ -18,12 +21,11 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
             })
         )
     }
-    // Sending validated data to be processed the registration
-    const newUser = await createUserService( newUserData )
-    res.status(200).send({ 
-        status: "data of createUser is valid",
-        data: newUser
-    })
+
+    const { status, code, message, token } = await createUserService( newUserData )
+
+    res.status( code ).send({ status, code, message, token }
+    )
 }
 
 // POST: api/user // endpoint to get user by id
@@ -104,9 +106,25 @@ export const deleteUser = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 }
 
-// export {
-    // createUser,
-    // getReservation,
-    // updateReservation,
-    // delelteReservation
-// }
+// POST: api/user/auth // endpoint to login user
+export const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
+
+    // console.log("req.body: ", req.body);
+    const userData = req.body
+    // res.send({userData: userData})
+    // Validate request data
+    // const { error } = userSchema.validate( userData )
+    // if (error) {
+    //     return (
+    //         res.status(400).json({
+    //             message: error.details[0].message
+    //         })
+    //     )
+    // }
+    // Sending validated data to be processed the registration
+    const token = await loginUserService( userData )
+    res.status(200).send({ 
+        status: "Successful login",
+        token: token
+    })
+}

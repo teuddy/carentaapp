@@ -10,4 +10,5 @@ export interface Payment {
     amount: number;
     payment_date: Date;
     payment_method: string;
+    payment_active: string;
 }

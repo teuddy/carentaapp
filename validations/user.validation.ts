@@ -23,7 +23,7 @@ export const loginSchema = Joi.object({
     // reset_password_token: Joi.string(),
 });
 
-export const getSchema = Joi.object({
+export const idUserSchema = Joi.object({
     _id: Joi.string().required(),
     // password: Joi.string().required(),
     // token: Joi.string(),

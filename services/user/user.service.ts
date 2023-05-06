@@ -87,12 +87,31 @@ export const deleteUser = async ( userId: string | string[] ) => {
     
     console.log("userId in delteUSer: ", userId);
     try {
-        // connect()
-        const userDeleted = await UserModel.findByIdAndDelete(userId)
+        const registeredUser = await UserModel.findOne({ _id: userId})
+
+        console.log("registeredUser: ", registeredUser);
+        if(!registeredUser) {
+            return {
+                status: "Registration process failed",
+                code: 400,
+                message: "User has been registered, please login"
+            }
+        }
+
+        const userDeleted = await UserModel.findByIdAndDelete( userId )
         console.log("userDeleted: ", userDeleted);
-        return userDeleted
+        return {
+            status: "OK",
+            code: 200,
+            message: "Request succeeded",
+            data: userDeleted
+        }
     } catch (error) {
-        return error
+        return {
+            status: "Failed",
+            code: 500,
+            message: "Internal Server Error"
+        }
     }
 }
 

@@ -4,7 +4,7 @@ import {createUser as createUserService,
         loginUser as loginUserService } from '../services/user/user.service'
 import {getUser as getUserRecord,
         updateUser as updateUserRecord } from '../services/user/user.service'
-import { getSchema, loginSchema, userSchema } from '../validations/user.validation';
+import { idUserSchema, loginSchema, userSchema } from '../validations/user.validation';
 
 // POST: api/user // endpoint to create a user
 export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -50,7 +50,7 @@ export const getUser = async (req: NextApiRequest, res: NextApiResponse) => {
     
     const userId = req.query.id
     // Validate request data
-    const { error } = getSchema.validate( { _id: userId } )
+    const { error } = idUserSchema.validate( { _id: userId } )
 
     if (error) {
         return (
@@ -91,21 +91,35 @@ export const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
 // DELETE: api/user // endpoint to delete payment by id
 export const deleteUser = async (req: NextApiRequest, res: NextApiResponse) => {
     
-    console.log("req.query DATA", req.query);
-    try {
-        const { id } = req.query
-        // console.log("delteUser id: ", id);
-        if (!(id === undefined) || !(id === null)) {
-            const recordUser = await deleteUserService ( id )
-            return res.status(200).send({ 
-                status: "data of delete User is valid",
-                data: recordUser
-            })
-        }
-        
-    } catch (error) {
-        return res.status(400).json({
+    const { id } = req.query
+    // Validate request data
+    const { error } = idUserSchema.validate({ _id: id })
+
+    if (error) {
+        return (
+            res.status(400).json({
                 message: error.details[0].message
             })
+        )
     }
+
+    
+    const { status, code, message, data } = await deleteUserService ( id )
+    res.status(code).send({ status, code, message, data })
+    
+    
+    // if (!(id === undefined) || !(id === null)) {
+    //     const recordUser = await deleteUserService ( id )
+    //     return res.status(200).send({ 
+    //         status: "data of delete User is valid",
+    //         data: recordUser
+    //     })
+    // }
+    // try {
+        
+    // } catch (error) {
+    //     return res.status(400).json({
+    //             message: error.details[0].message
+    //         })
+    // }
 }

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { connect } from '../../../../../utils/dbConnection'
-import { getUser, loginUser } from '../../../../../controllers/user.controller';
+import { deleteUser, getUser, loginUser } from '../../../../../controllers/user.controller';
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse ) {
 
@@ -23,7 +23,8 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
             break;
         }
         case "DELETE": {
-            res.send("DELETE method in AUTH index ruote")
+            deleteUser(req, res);
+            // res.send("DELETE method in AUTH index ruote")
             break;
         }
         default: {

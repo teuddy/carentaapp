@@ -77,9 +77,10 @@ export const putListingService = async (id: string | string[] , body: Listing) =
     }
 }
 
-export const deleteOneListingService = async (id)=> {
+export const deleteOneListingService = async (id, body)=> {
     try{
-        const deleteListing = await ListingModel.deleteOne({ _id:id});
+        const deleteListing = await ListingModel.deleteOne(id, body);
+        //console.log("deleteListing" , deleteListing)
         return deleteListing;
     }catch (err){
         console.log("err", err);

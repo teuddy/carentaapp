@@ -42,7 +42,11 @@ export const putListing = async (req: NextApiRequest , res: NextApiResponse) =>{
 }
 
 export const deleteListing = async ( req: NextApiRequest, res: NextApiResponse)=>{
-    const deleteOneListing = await deleteOneListingService(req.query.id)
+    
+    const deleteId = req.query.id
+    const deleteCarBody = req.query.body
+    console.log()
+    const deleteOneListing = await deleteOneListingService(deleteId, deleteCarBody)
     res.send({deleteOneListing})
 }
 

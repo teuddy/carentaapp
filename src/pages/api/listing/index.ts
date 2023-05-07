@@ -22,7 +22,7 @@ export default function handler(
         }
         
         default: {
-            res.send("hola");
+            res.send("No hay ningun vehiculo");
             break;
         }
     }

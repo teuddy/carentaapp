@@ -1,4 +1,5 @@
 import { Document, Schema, Model, model, Types } from "mongoose";
+import mongoose from "mongoose";
 
 //para que usuarios hagan reviews, esto solo luego de que hayan reservado
 export interface Review extends Document {
@@ -19,4 +20,5 @@ const reviewSchema: Schema = new Schema({
   updated_at: { type: Date, default: Date.now },
 });
 
-export const ReviewModel: Model<Review> = model<Review>("Review", reviewSchema);
+//export const ReviewModel: Model<Review> = model<Review>("Review", reviewSchema);
+export default (mongoose.models.Review as mongoose.Model<Review>) || mongoose.model('Review', reviewSchema);

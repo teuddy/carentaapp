@@ -4,6 +4,8 @@
 import { get } from "http";
 import ListingModel, { Listing } from "../../models/listingModel";
 import { connect } from "../../utils/dbConnection";
+import { query } from "express";
+import { clearScreenDown } from "readline";
 //import  ListingModel  from "../../models/listingModel"
 
 
@@ -19,6 +21,19 @@ export const createListing = async (data: Listing) =>{
     }
 }
 
+export  const  searchListingAvailable = async ( query: Listing) =>{
+
+    const{type , location, price_per_day} = query
+    console.log("type:" , type, "location:" , location, "price")
+    //const resultListing = await ListingModel.find({type: type}, {location: location}, {price_per_day: price_per_day});
+    
+    //const resultListing = await ListingModel.find({_id:"64581515ad77bb8334ee8b0c"});
+    const resultListing = await ListingModel.find({price_per_day: price_per_day});
+    console.log("result",resultListing)
+    return {
+        resultListing
+    }
+}
 
 
 export const getAllListingService = async () =>{

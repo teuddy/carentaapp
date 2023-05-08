@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createListing, getAllListingService, putListingService,deleteOneListingService, getListingService } from "../services/listing/listing.service";
+import { createListing, getAllListingService, putListingService,deleteOneListingService, getListingService, searchListingAvailable } from "../services/listing/listing.service";
 import { listingSchema } from '../validations/listing.valdiation';
 
 
@@ -19,11 +19,20 @@ export const getAllListing = async (req : NextApiRequest ,res : NextApiResponse)
     res.send({ list: allListing })
 }
 
+export const searchListing = async (req : NextApiRequest ,res : NextApiResponse) =>{
+   // const searchId = req.query.id
+    console.log( req.query )
+    const resultSearchListing = await searchListingAvailable(req.query)
+    res.send(resultSearchListing)
+}
+
+
 
 export const getListing = async (req : NextApiRequest ,res : NextApiResponse) =>{
     // res.status(200).json(getAllListingService())
   //  const allListing =  await getAllListingService()
     //if (error) return res.status(400).json({message: error})
+    
     const listingId = req.query.id
     const listing = await getListingService(listingId) 
    // console.log("imprimiendo", req.query.id)
@@ -46,8 +55,8 @@ export const deleteListing = async ( req: NextApiRequest, res: NextApiResponse)=
     const deleteId = req.query.id
     const deleteCarBody = req.query.body
     console.log()
-    const deleteOneListing = await deleteOneListingService(deleteId, deleteCarBody)
-    res.send({deleteOneListing})
+    const deleteOneCar= await deleteOneListingService(deleteId, deleteCarBody)
+    res.send({deleteOneCar})
 }
 
 

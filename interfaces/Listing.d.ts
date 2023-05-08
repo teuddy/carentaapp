@@ -4,6 +4,7 @@ export interface Listing {
     model: string;
     year: number;
     description: string;
+    type: string;
     location: string;
     primary_image_url: string;
     image_urls: string[]; 

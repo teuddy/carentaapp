@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { create as CreateListingController, getAllListing } from '../../../../controllers/listing.controller'
+import { create as CreateListingController, getAllListing, searchListing } from '../../../../controllers/listing.controller'
 import { connect } from '../../../../utils/dbConnection'
 
 export default function handler(
@@ -14,7 +14,7 @@ export default function handler(
             break;
         }
         case "GET": {
-            getAllListing(req, res)
+            searchListing(req, res)
             break;
         }
         case "PUT": {

@@ -23,3 +23,8 @@ export const connect = () =>{
   };
   connectWithRetry();
 };
+
+// 123456789Hello
+// https://jarvisespacio.slack.com/archives/C0527R22X43/p1683487943442669?thread_ts=1683486377.058139&cid=C0527R22X43
+
+// mongodb+srv://carentapp:123456789Hello@carentaapp.heodbap.mongodb.net/?retryWrites=true&w=majority

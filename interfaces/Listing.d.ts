@@ -3,6 +3,7 @@ export interface Listing {
     make: string;
     model: string;
     year: number;
+    type: string;
     description: string;
     location: string;
     primary_image_url: string;

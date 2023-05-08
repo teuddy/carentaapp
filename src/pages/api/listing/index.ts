@@ -1,10 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { create as CreateListingController } from '../../../../controllers/listing.controller'
+import { connect } from '../../../../utils/dbConnection'
+import { createListing } from '../../../../controllers/listing.controller'
 
+export default async function handler( req: NextApiRequest, res: NextApiResponse ) {
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-    ) {
-        CreateListingController(req,res)
+	connect();
+
+	switch(req.method) {
+		case "POST": {
+			createListing( req, res );
+			// res.send("POST method in LISTING index route")
+			break;
+		}
+		case "GET": {
+			// searchListing(req, res)
+			// res.send("GET method in LISTING index route")
+			break;
+		}
+		case "PUT": {
+			// res.send("GET method in LISTING index route")
+			break;
+		}
+		case "DELETE": {
+			// res.send("GET method in LISTING index route")
+			break;
+		}
+		default: {
+			res.send("DEFAULT in LISTING index route");
+			break;
+		}
+	}
 }

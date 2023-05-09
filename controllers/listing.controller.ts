@@ -1,6 +1,8 @@
+import { query } from 'express';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createListingService, getAllListingService, putListingService,deleteOneListingService, getListingService, searchListingAvailable } from "../services/listing/listing.service";
+import { createListingService, putListingService,deleteOneListingService, getListingService, searchListingAvailable } from "../services/listing/listing.service";
 import { listingSchema } from '../validations/listing.valdiation';
+import { SearchListing } from '../interfaces/SearchListing';
 
 
 // POST: api/listing // endpoint to create a listing
@@ -25,19 +27,30 @@ export const createListing =
     res.status( code ).send({ status, code, message, listing })
 }
 
-export const getAllListing = async (req : NextApiRequest ,res : NextApiResponse) =>{
-   // res.status(200).json(getAllListingService())
-    const allListing =  await getAllListingService()
-   //if (error) return res.status(400).json({message: error})
-    res.send({ list: allListing })
-}
+export const searchListing = 
+    async ( req: NextApiRequest , res: NextApiResponse ) => {
+    
+    const searchListing: SearchListing = {
+        type: req.query.type,
+        location: req.query.location,
+        pickUp: req.query.pickUp,
+        dropOff: req.query.dropOff,
+        price_per_day: req.query.price_per_day,
+        minPrice: req.query.minPrice,
+        maxPrice: req.query.maxPrice,
+        startDate: req.query.startDate,
+        endDate: req.query.endDate
+    } 
+    // console.log("searchListing: ", searchListing);
 
-// export const searchListing = async (req : NextApiRequest ,res : NextApiResponse) =>{
-//    // const searchId = req.query.id
-//     console.log( req.query )
-//     const resultSearchListing = await searchListingAvailable(req.query)
-//     res.send(resultSearchListing)
-// }
+    const resultSearchListing = await searchListingAvailable( searchListing )
+    
+    console.log("resultSearchListing: ", resultSearchListing);
+
+    // const resultListing = resultSearchListing.available_listing.map(listing => resultSearchListing.available_listing)
+    // console.log("resultListing: ", resultListing);
+    res.send(resultSearchListing)
+}
 
 
 

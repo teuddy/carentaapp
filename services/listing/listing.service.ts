@@ -1,7 +1,5 @@
+import { SearchListing } from "../../interfaces/SearchListing";
 import ListingModel, { Listing } from "../../models/listingModel";
-import { connect } from "../../utils/dbConnection";
-import { query } from "express";
-import { clearScreenDown } from "readline";
 
 
 // Register new listing in the DB
@@ -36,49 +34,42 @@ export const createListingService = async ( newListingData: Listing ) => {
     }
 }
 
-export  const  searchListingAvailable = async ( query: Listing) =>{
+export  const  searchListingAvailable = async ( query: SearchListing ) => {
 
-    const{type , location, price_per_day} = query
-    console.log("type:" , type, "location:" , location, "price")
-    //const resultListing = await ListingModel.find({type: type}, {location: location}, {price_per_day: price_per_day});
-    
-    //const resultListing = await ListingModel.find({_id:"64581515ad77bb8334ee8b0c"});
-    const resultListing = await ListingModel.find({price_per_day: price_per_day});
-    console.log("result",resultListing)
-    return {
-        resultListing
-    }
-}
-
-
-export const getAllListingService = async () =>{
-     // ListingModel.find()
-    //     .then(allListing => {
-    //         console.log('listing', allListing)
-    //         return allListing
-    //     })
-    //     .catch(err =>{
-    //         
-
-    //     })
-
-    try {
-        const listingCar  =  
-            {
-        "make":"",
-        "model":"",
-        "year":"",
-        "description":"",
-        "location":"",
-        "price_per_day":"",
-        "is_available": true,
-        "image_urls": ["https://acnews.blob.core.windows.net/imgnews/large/NAZ_ce0fb6a213d54ce6bc9e3d45299973d4.jpg"]
+    // The minimun data (start and end date) for a query is evaluated, without this data the request is rejected
+    if ( query.startDate === undefined ||  query.endDate === undefined ) {
+        return {
+            status: "Query Error",
+            code: 400,
+            message: "There is no enough data selected in the query, please select start and end date"
         }
-        //const allListings = await ListingModel.find();
-        return listingCar;
-    } catch (err) {
-        console.log("err", err);
-        return({ error: err})
+    }
+
+    const{ type, location, price_per_day, minPrice, maxPrice, startDate, endDate } = query
+    // Getting the list of available vehicles to display to the user
+    const resultListing = await ListingModel.find({
+        type: type,
+        location: location,
+        price_per_day: { $lte: maxPrice, $gte: minPrice },
+    }, {
+        type: 1,
+        location: 1,
+        price_per_day: 1,
+    });
+
+    // Response when no options available
+    if(resultListing.length === 0) {
+        return{
+            status: "Query completed successfully",
+            code: 200,
+            message: "No options available for selected options"
+        }
+    }
+    // Response with available vehicles
+    return {
+        status: "Query completed successfully",
+        code: 200,
+        available_listing: resultListing
     }
 }
 

@@ -36,12 +36,12 @@ export const createListingService = async ( newListingData: Listing ) => {
 
 export  const  searchListingAvailable = async ( query: SearchListing ) => {
 
-    // The minimun data (start and end date) for a query is evaluated, without this data the request is rejected
-    if ( query.startDate === undefined ||  query.endDate === undefined ) {
+    // The minimun data for a query is evaluated, without this data the request is rejected
+    if ( query.type === undefined || query.location === undefined || query.minPrice === undefined ||  query.maxPrice === undefined || query.startDate === undefined ||  query.endDate === undefined ) {
         return {
             status: "Query Error",
             code: 400,
-            message: "There is no enough data selected in the query, please select start and end date"
+            message: "There is no enough data selected in the query"
         }
     }
 
@@ -65,6 +65,7 @@ export  const  searchListingAvailable = async ( query: SearchListing ) => {
             message: "No options available for selected options"
         }
     }
+    console.log("resultListing: ", resultListing);
     // Response with available vehicles
     return {
         status: "Query completed successfully",

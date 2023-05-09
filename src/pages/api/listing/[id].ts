@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { connect } from '../../../../utils/dbConnection'
-import { deleteListing, getListing, putListing } from '../../../../controllers/listing.controller'
+import { deleteListing, getListing, updateListing } from '../../../../controllers/listing.controller'
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse ) {
 
@@ -13,7 +13,7 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
             break; 
         } 
         case "PUT": {
-            putListing(req, res)
+            updateListing(req, res)
             // res.send("PUT method in LISTING [id] route")
             break;
         }

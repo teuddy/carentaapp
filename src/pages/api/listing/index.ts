@@ -1,4 +1,4 @@
-import { searchListing } from './../../../../controllers/listing.controller';
+import { searchListing, updateListing } from './../../../../controllers/listing.controller';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { connect } from '../../../../utils/dbConnection'
 import { createListing } from '../../../../controllers/listing.controller'
@@ -19,6 +19,7 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
 			break;
 		}
 		case "PUT": {
+			updateListing( req, res )
 			// res.send("GET method in LISTING index route")
 			break;
 		}

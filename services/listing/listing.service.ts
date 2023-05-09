@@ -87,15 +87,34 @@ export const getListingService = async ( listingId: string | string[] )  =>{
 }
 
 
-export const putListingService = async (id: string | string[] , body: Listing) => {
+export const updateListingService = async (id: string | string[] , body: Listing) => {
     
     try{
-        const putListing = await ListingModel.findByIdAndUpdate(id , body);
-        //console.log("putlisting", putListing)
-        return putListing;
-    }catch (err){
-        console.log("err", err);
-        return({error: err})
+        // Check if the id corresponds to a registered vehicle
+        // const listingData = await get
+        // console.log("body: ", body);
+        // console.log("object body: ", Object.entries(body).length === 0 );
+
+        if(id === undefined || Object.entries(body).length === 0) {
+            return ({
+                status: "Query process failed",
+                code: 400,
+                message: "It is not possible to complete the request with the information provided"
+            })
+        }
+        
+        const listing = await ListingModel.findByIdAndUpdate(id , body, {new: true});
+
+        return ({
+            status: "Process completed successfully",
+            code: 200,
+            message: "The 'listing' record has been updated",
+            listing: listing
+        })
+
+    }catch (error){
+        // console.log("error: ", error);
+        return({error: error})
     }
 }
 

@@ -1,6 +1,5 @@
-import { query } from 'express';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createListingService, putListingService,deleteOneListingService, getListingService, searchListingAvailable } from "../services/listing/listing.service";
+import { createListingService, updateListingService, deleteOneListingService, getListingService, searchListingAvailable } from "../services/listing/listing.service";
 import { listingSchema } from '../validations/listing.valdiation';
 import { SearchListing } from '../interfaces/SearchListing';
 
@@ -27,6 +26,7 @@ export const createListing =
     res.status( code ).send({ status, code, message, listing })
 }
 
+// Search for available vehicles for the preferences selected by the user
 export const searchListing = 
     async ( req: NextApiRequest , res: NextApiResponse ) => {
     
@@ -65,15 +65,17 @@ export const getListing = async (req : NextApiRequest ,res : NextApiResponse) =>
     res.send(listing)
 }
 
-export const putListing = async (req: NextApiRequest , res: NextApiResponse) =>{
-    
+// Update the data of a vehicle by id
+export const updateListing = async ( req: NextApiRequest, res: NextApiResponse) => {
+    // id to indentify the vehicle to update
     const listingId = req.query.id
-    //console.log(listingId)
-    //const putListing = await putListingService(query.id, req.body)
+    // Information to update
     const newDataListing = req.body
    // console.log(newDataListing)
-    const listingUpdated = await putListingService(listingId, newDataListing)
-    res.send(listingUpdated)
+
+    const { status, code, message, listing } = await updateListingService(listingId, newDataListing)
+
+    res.status( code).send({ status, code, message, listing })
 }
 
 export const deleteListing = async ( req: NextApiRequest, res: NextApiResponse)=>{

@@ -36,41 +36,48 @@ export const createListingService = async ( newListingData: Listing ) => {
 
 export  const  searchListingAvailable = async ( query: SearchListing ) => {
 
-    // The minimun data for a query is evaluated, without this data the request is rejected
-    if ( query.type === undefined || query.location === undefined || query.minPrice === undefined ||  query.maxPrice === undefined || query.startDate === undefined ||  query.endDate === undefined ) {
+    try {
+        // The minimun data for a query is evaluated, without this data the request is rejected
+        if ( query.type === undefined || query.location === undefined || query.minPrice === undefined ||  query.maxPrice === undefined || query.startDate === undefined ||  query.endDate === undefined ) {
+            return {
+                status: "Query Error",
+                code: 400,
+                message: "There is no enough data selected in the query"
+            }
+        }
+
+        const{ type, location, price_per_day, minPrice, maxPrice, startDate, endDate } = query
+        // Getting the list of available vehicles to display to the user
+        const resultListing = await ListingModel.find({
+            type: type,
+            location: location,
+            price_per_day: { $lte: maxPrice, $gte: minPrice },
+        }, {
+            type: 1,
+            location: 1,
+            price_per_day: 1,
+        });
+
+        // Response when no options available
+        if(resultListing.length === 0) {
+            return{
+                status: "Query completed successfully",
+                code: 200,
+                message: "No options available for selected options"
+            }
+        }
+        console.log("resultListing: ", resultListing);
+        // Response with available vehicles
         return {
-            status: "Query Error",
-            code: 400,
-            message: "There is no enough data selected in the query"
-        }
-    }
-
-    const{ type, location, price_per_day, minPrice, maxPrice, startDate, endDate } = query
-    // Getting the list of available vehicles to display to the user
-    const resultListing = await ListingModel.find({
-        type: type,
-        location: location,
-        price_per_day: { $lte: maxPrice, $gte: minPrice },
-    }, {
-        type: 1,
-        location: 1,
-        price_per_day: 1,
-    });
-
-    // Response when no options available
-    if(resultListing.length === 0) {
-        return{
-            status: "Query completed successfully",
+            status: "OK",
             code: 200,
-            message: "No options available for selected options"
+            message: "Query completed successfully",
+            available_listing: resultListing
         }
-    }
-    console.log("resultListing: ", resultListing);
-    // Response with available vehicles
-    return {
-        status: "Query completed successfully",
-        code: 200,
-        available_listing: resultListing
+
+    } catch (error) {
+        console.log("error: ", error);
+        return({error: error})
     }
 }
 
@@ -132,14 +139,36 @@ export const updateListingService = async (id: string | string[] , body: Listing
     }
 }
 
-export const deleteOneListingService = async (id, body)=> {
-    try{
-        const deleteListing = await ListingModel.deleteOne(id, body);
-        //console.log("deleteListing" , deleteListing)
-        return deleteListing;
-    }catch (err){
-        console.log("err", err);
-        return({error: err})
+export const deleteListingService = async (id: string | string[] ) => {
+    try {
+
+        if(id === undefined) {
+            return ({
+                status: "Process failed",
+                code: 400,
+                message: "It is not possible to complete the request with the information provided"
+            })
+        }
+
+        const deletedListing = await ListingModel.findByIdAndDelete( id );
+        if ( deletedListing === null ) {
+            return ({
+                status: "Process failed",
+                code: 400,
+                message: "It is not possible to complete the request with the information provided"
+            })
+        } else {
+            return {
+                status: "OK",
+                code: 200,
+                message: "The 'listing' record has been deleted",
+                listing: deletedListing
+            }
+        }
+
+    } catch (error) {
+        console.log("error", error);
+        return({error: error})
     }
 }
 

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createListingService, updateListingService, deleteOneListingService, getListingService, searchListingAvailable } from "../services/listing/listing.service";
+import { createListingService, updateListingService, deleteListingService, getListingService, searchListingAvailable } from "../services/listing/listing.service";
 import { listingSchema } from '../validations/listing.valdiation';
 import { SearchListing } from '../interfaces/SearchListing';
 
@@ -43,13 +43,9 @@ export const searchListing =
     } 
     // console.log("searchListing: ", searchListing);
 
-    const resultSearchListing = await searchListingAvailable( searchListing )
-    
-    console.log("resultSearchListing: ", resultSearchListing);
+    const { status, code, message, available_listing } = await searchListingAvailable( searchListing )
 
-    // const resultListing = resultSearchListing.available_listing.map(listing => resultSearchListing.available_listing)
-    // console.log("resultListing: ", resultListing);
-    res.send(resultSearchListing)
+    res.status(code).send({ status, code, message, available_listing })
 }
 
 
@@ -68,7 +64,7 @@ export const getListing = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Update the data of a vehicle by id
 export const updateListing = async ( req: NextApiRequest, res: NextApiResponse) => {
-    // id to indentify the vehicle to update
+    // id to indentify the 'listing' to update
     const listingId = req.query.id
     // Information to update
     const newDataListing = req.body
@@ -79,11 +75,11 @@ export const updateListing = async ( req: NextApiRequest, res: NextApiResponse) 
     res.status( code).send({ status, code, message, listing })
 }
 
-export const deleteListing = async ( req: NextApiRequest, res: NextApiResponse)=>{
-    
-    const deleteId = req.query.id
-    const deleteCarBody = req.query.body
-    console.log()
-    const deleteOneCar= await deleteOneListingService(deleteId, deleteCarBody)
-    res.send({deleteOneCar})
+export const deleteListing = async ( req: NextApiRequest, res: NextApiResponse )=> {
+    // id to indentify the 'listing' to delete
+    const id = req.query.id
+    // const deleteCarBody = req.query.body
+    const { status, code, message, listing, error } = await deleteListingService( id )
+
+    res.status( code ).send({ status, code, message, listing, error })
 }

@@ -18,15 +18,15 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
 			// res.send("GET method in LISTING index route")
 			break;
 		}
-		case "PUT": {
-			updateListing( req, res )
-			// res.send("GET method in LISTING index route")
-			break;
-		}
-		case "DELETE": {
-			// res.send("GET method in LISTING index route")
-			break;
-		}
+		// case "PUT": {
+		// 	// updateListing( req, res )
+		// 	res.send("PUT method in LISTING index route")
+		// 	break;
+		// }
+		// case "DELETE": {
+		// 	// res.send("DELETE method in LISTING index route")
+		// 	break;
+		// }
 		default: {
 			res.send("DEFAULT in LISTING index route");
 			break;

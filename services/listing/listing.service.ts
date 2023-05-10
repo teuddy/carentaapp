@@ -74,15 +74,29 @@ export  const  searchListingAvailable = async ( query: SearchListing ) => {
     }
 }
 
-export const getListingService = async ( listingId: string | string[] )  =>{
-    console.log("getService", listingId )
+// Getting "listing" by id
+export const getListingService = async ( id: string | string[] ) => {
 
     try {
-        const getListing = await ListingModel.findById(listingId) 
-        return getListing        
-    } catch (err) {
-        console.log("err", err);
-        return({ error: err})
+        if(id === undefined) {
+            return ({
+                status: "Query process failed",
+                code: 400,
+                message: "It is not possible to complete the request with the information provided"
+            })
+        }
+
+        const listing = await ListingModel.findById(id) 
+        return({
+            status: "OK",
+            code: 200,
+            message: "Query completed successfully",
+            listing: listing
+        })
+
+    } catch (error) {
+        console.log("error: ", error);
+        return({ error: error})
     }
 }
 
@@ -113,7 +127,7 @@ export const updateListingService = async (id: string | string[] , body: Listing
         })
 
     }catch (error){
-        // console.log("error: ", error);
+        console.log("error: ", error);
         return({error: error})
     }
 }

@@ -31,7 +31,7 @@ export const createUser = async (newUserData: User ) => {
         const userToken = generateToken(newUser)
         
         return {
-            status: "Successful registration",
+            status: "Successful USER registration",
             code: 200,
             token: userToken
         }

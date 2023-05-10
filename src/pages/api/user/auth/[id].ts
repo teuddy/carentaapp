@@ -9,21 +9,21 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
     switch(req.method) {
         case "GET": {
             // getUser(req,res);
-            res.send("GET method in AUTH index ruote")
+            res.send("GET method in AUTH [id] ruote")
             break;
         }
         case "PUT": {
             updateUser(req, res)
-            // res.send("PUT method in AUTH index ruote")
+            // res.send("PUT method in AUTH [id] ruote")
             break;
         }
         case "DELETE": {
             deleteUser(req, res)
-            // res.send("DELETE method in AUTH index ruote")
+            // res.send("DELETE method in AUTH [id] ruote")
             break;
         }
         default: {
-            res.send("DEFAULT in AUTH index ruote");
+            res.send("DEFAULT in AUTH [id] ruote");
             break;
         }
     }
